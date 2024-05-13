@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Repository.Models;
+namespace API.Models;
 
 public partial class Application
 {
@@ -13,7 +13,7 @@ public partial class Application
 
     public string? FileAttach { get; set; }
 
-    public string UserId { get; set; } = null!;
+    public Guid? UserId { get; set; }
 
-    public virtual User User { get; set; } = null!;
+    public virtual User? User { get; set; }
 }

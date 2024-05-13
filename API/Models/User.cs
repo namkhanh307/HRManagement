@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Repository.Models;
+namespace API.Models;
 
 public partial class User
 {
-    public string Id { get; set; } = null!;
+    public Guid Id { get; set; }
 
-    public string? Name { get; set; }
+    public string Name { get; set; } = null!;
 
     public string? Phone { get; set; }
 
@@ -15,15 +15,15 @@ public partial class User
 
     public DateOnly? DateOfBirth { get; set; }
 
-    public int PositionId { get; set; }
+    public int? PositionId { get; set; }
 
-    public int SalaryId { get; set; }
+    public int? SalaryId { get; set; }
 
     public virtual ICollection<Application> Applications { get; set; } = new List<Application>();
 
-    public virtual Position Position { get; set; } = null!;
+    public virtual Position? Position { get; set; }
 
-    public virtual Salary Salary { get; set; } = null!;
+    public virtual Salary? Salary { get; set; }
 
     public virtual ICollection<Claim> Claims { get; set; } = new List<Claim>();
 

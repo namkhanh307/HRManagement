@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Repository.Models;
+namespace API.Models;
 
 public partial class Position
 {

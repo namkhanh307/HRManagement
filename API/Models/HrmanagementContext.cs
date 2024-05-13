@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using Repository.Models;
+using Microsoft.EntityFrameworkCore;
 
-namespace Repository;
+namespace API.Models;
 
 public partial class HrmanagementContext : DbContext
 {
@@ -36,6 +35,7 @@ public partial class HrmanagementContext : DbContext
                 .AddJsonFile("appsettings.json", true, true).Build();
         return configuration["ConnectionStrings:DBDefault"];
     }
+
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) => optionsBuilder.UseSqlServer(GetConnectionString());
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -52,13 +52,10 @@ public partial class HrmanagementContext : DbContext
                 .HasMaxLength(50)
                 .HasColumnName("name");
             entity.Property(e => e.Type).HasColumnName("type");
-            entity.Property(e => e.UserId)
-                .HasMaxLength(250)
-                .HasColumnName("userID");
+            entity.Property(e => e.UserId).HasColumnName("userID");
 
             entity.HasOne(d => d.User).WithMany(p => p.Applications)
                 .HasForeignKey(d => d.UserId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Application_User");
         });
 
@@ -117,7 +114,7 @@ public partial class HrmanagementContext : DbContext
             entity.ToTable("User");
 
             entity.Property(e => e.Id)
-                .HasMaxLength(250)
+                .ValueGeneratedNever()
                 .HasColumnName("ID");
             entity.Property(e => e.DateOfBirth).HasColumnName("dateOfBirth");
             entity.Property(e => e.Email)
@@ -134,12 +131,10 @@ public partial class HrmanagementContext : DbContext
 
             entity.HasOne(d => d.Position).WithMany(p => p.Users)
                 .HasForeignKey(d => d.PositionId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_User_Position");
 
             entity.HasOne(d => d.Salary).WithMany(p => p.Users)
                 .HasForeignKey(d => d.SalaryId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_User_Salary");
 
             entity.HasMany(d => d.Claims).WithMany(p => p.Users)
@@ -157,9 +152,7 @@ public partial class HrmanagementContext : DbContext
                     {
                         j.HasKey("UserId", "ClaimId").HasName("PK__UserClai__EB81C344C9F655A7");
                         j.ToTable("UserClaim");
-                        j.IndexerProperty<string>("UserId")
-                            .HasMaxLength(250)
-                            .HasColumnName("userID");
+                        j.IndexerProperty<Guid>("UserId").HasColumnName("userID");
                         j.IndexerProperty<string>("ClaimId")
                             .HasMaxLength(250)
                             .HasColumnName("claimID");
@@ -180,9 +173,7 @@ public partial class HrmanagementContext : DbContext
                     {
                         j.HasKey("UserId", "RoleId").HasName("PK__UserRole__774398BF097C0872");
                         j.ToTable("UserRole");
-                        j.IndexerProperty<string>("UserId")
-                            .HasMaxLength(250)
-                            .HasColumnName("userID");
+                        j.IndexerProperty<Guid>("UserId").HasColumnName("userID");
                         j.IndexerProperty<string>("RoleId")
                             .HasMaxLength(250)
                             .HasColumnName("roleID");

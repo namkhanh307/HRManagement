@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Repository.Models;
+namespace API.Models;
 
-public partial class Role
+public partial class Claim
 {
     public string Id { get; set; } = null!;
 
-    public string? Name { get; set; }
+    public string? Content { get; set; }
 
     public virtual ICollection<User> Users { get; set; } = new List<User>();
 }
